@@ -1,0 +1,44 @@
+<app-empcount *ngIf="employees" [all]="getAllEmployees()" [male]="getMaleEmployees()" [female]="getFemaleEmployees()"
+(selectChanged)="onSelectChange($event)">
+</app-empcount>
+<br />
+<table>
+  <thead>
+    <tr>
+      <th [attr.colspan]="columnSpan">Employee Details</th>
+    </tr>
+    <tr>
+      <th>Code</th>
+      <th>Name</th>
+      <th>Gender</th>
+      <th>Annual Salary</th>
+      <th>DOB</th>
+      <th>Index</th>
+      <th>isFirst</th>
+      <th>isLast</th>
+      <th>isEven</th>
+      <th>isOdd</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let emp of employees; trackBy: getEmpCode; let i = index; let isFirst = first; let isLast = last; let isEven = even; let isOdd = odd;">
+      <tr *ngIf="selected == 'All' || selected == emp.gender">
+        <td>{{emp.code | uppercase}}</td>
+        <td>{{emp.name | title: emp.gender}}</td>
+        <td>{{emp.gender}}</td>
+        <td>{{emp.annualSalary | currency: 'USD': true: '1.2-2'}}</td>
+        <td>{{emp.dateOfBirth | date: 'fullDate' | uppercase}}</td>
+        <td>{{i}}</td>
+        <td>{{isFirst}}</td>
+        <td>{{isLast}}</td>
+        <td>{{isEven}}</td>
+        <td>{{isOdd}}</td>
+      </tr>
+    </ng-container>
+    <tr *ngIf="!employees || employees.length == 0">
+      <td [attr.colspan]="columnSpan">NO EMPLOYEES TO DISPLAY</td>
+    </tr>
+  </tbody>
+</table>
+<br />
+<button type="button" (click)="getEmployees()">Refresh Employees</button>
