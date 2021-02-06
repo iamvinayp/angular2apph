@@ -14,7 +14,7 @@ export class EmplistComponent implements OnInit {
   showDetails: boolean = false;
   // employees: any[];
   employees: IEmployee[];
-  selected:string = "All";
+  selected: string = "All";
   // employees: any[] = [
   //   {
   //       code: 'emp101', name: 'Tom', gender: 'Male',
@@ -33,6 +33,7 @@ export class EmplistComponent implements OnInit {
   //       annualSalary: 6500.826, dateOfBirth: '14/10/1980'
   //   }
   // ];
+  statusMsg: string = "Loading ...";
 
   constructor (private _empService: EmpService)  {
     // this.employees = [
@@ -106,7 +107,11 @@ export class EmplistComponent implements OnInit {
 
   ngOnInit() {
     this._empService.getEmployees()
-    .subscribe(empData => this.employees = empData)
+    .subscribe(empData => this.employees = empData,
+      error => {
+        console.log(error);
+        this.statusMsg = "We are experiencing some technical difficulties. Please try again later";
+      });
   }
 
 }

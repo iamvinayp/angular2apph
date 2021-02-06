@@ -23,7 +23,7 @@
   <tbody>
     <ng-container *ngFor="let emp of employees; trackBy: getEmpCode; let i = index; let isFirst = first; let isLast = last; let isEven = even; let isOdd = odd;">
       <tr *ngIf="selected == 'All' || selected == emp.gender">
-        <td>{{emp.code | uppercase}}</td>
+        <td><a [routerLink]="['/empdetail', emp.code]">{{emp.code | uppercase}}</a></td>
         <td>{{emp.name | title: emp.gender}}</td>
         <td>{{emp.gender}}</td>
         <td>{{emp.annualSalary | currency: 'USD': true: '1.2-2'}}</td>
@@ -35,10 +35,13 @@
         <td>{{isOdd}}</td>
       </tr>
     </ng-container>
-    <tr *ngIf="!employees || employees.length == 0">
+    <tr *ngIf="employees && employees.length == 0">
       <td [attr.colspan]="columnSpan">NO EMPLOYEES TO DISPLAY</td>
+    </tr>
+    <tr *ngIf="!employees">
+      <td [attr.colspan]="columnSpan">{{statusMsg}}</td>
     </tr>
   </tbody>
 </table>
 <br />
-<button type="button" (click)="getEmployees()">Refresh Employees</button>
+<button type="button" class="btn btn-default" (click)="getEmployees()">Refresh Employees</button>
